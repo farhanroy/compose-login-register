@@ -1,5 +1,8 @@
-package github.farhanroy.signinup.ui.screens
+package github.farhanroy.signinup
 
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,23 +16,38 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import github.farhanroy.signinup.R
 import github.farhanroy.signinup.ui.theme.Shapes
+import github.farhanroy.signinup.ui.theme.SigninupTheme
+
+class RegisterActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            SigninupTheme {
+                Surface(color = MaterialTheme.colors.background) {
+                    RegisterScreen()
+                }
+            }
+        }
+    }
+}
 
 @Composable
-fun LoginScreen() {
+fun RegisterScreen() {
     Column(modifier = Modifier.padding(16.dp)) {
         HeaderText()
-        Spacer(modifier = Modifier.height(128.dp))
+        Spacer(modifier = Modifier.height(64.dp))
+        UsernameTextField()
+        Spacer(modifier = Modifier.height(4.dp))
         EmailTextField()
         Spacer(modifier = Modifier.height(4.dp))
         PasswordTextField()
         Spacer(modifier = Modifier.height(64.dp))
-        ButtonLogin()
+        ButtonRegister()
         Spacer(modifier = Modifier.height(16.dp))
-        ButtonFBLogin()
-        Spacer(modifier = Modifier.height(128.dp))
-        ButtonToRegister()
+        ButtonFBRegister()
+        Spacer(modifier = Modifier.height(48.dp))
+        ButtonToLogin()
     }
 }
 
@@ -37,7 +55,20 @@ fun LoginScreen() {
 private fun HeaderText() {
     Text(text = "Welcome,", fontWeight = FontWeight.Bold, fontSize = 32.sp)
     Spacer(modifier = Modifier.height(2.dp))
-    Text(text = "Sign in to continue,", fontWeight = FontWeight.Bold, fontSize = 26.sp, color = Color.LightGray)
+    Text(text = "Sign up to create an account,", fontWeight = FontWeight.Bold, fontSize = 26.sp, color = Color.LightGray)
+}
+
+@Composable
+private fun UsernameTextField() {
+    var username by remember { mutableStateOf("") }
+
+    OutlinedTextField(
+        value = username,
+        onValueChange = { username = it },
+        label = { Text(text = "Username") },
+        modifier = Modifier.fillMaxWidth(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+    )
 }
 
 @Composable
@@ -67,19 +98,19 @@ private fun PasswordTextField() {
 }
 
 @Composable
-private fun ButtonLogin() {
+private fun ButtonRegister() {
     Button(
         onClick = { /*TODO*/ },
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(vertical = 16.dp, horizontal = 1.dp),
         shape = Shapes.large
     ) {
-        Text("Login")
+        Text("Register")
     }
 }
 
 @Composable
-private fun ButtonFBLogin() {
+private fun ButtonFBRegister() {
     Button(
         onClick = { /*TODO*/ },
         modifier = Modifier.fillMaxWidth(),
@@ -96,9 +127,9 @@ private fun ButtonFBLogin() {
 }
 
 @Composable
-private fun ButtonToRegister() {
+private fun ButtonToLogin() {
     Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-        Text("Haven't an account ? ")
-        Text("Sign Up ", color = MaterialTheme.colors.primary, fontWeight = FontWeight.SemiBold)
+        Text("Have an account ? ")
+        Text("Sign In ", color = MaterialTheme.colors.primary, fontWeight = FontWeight.SemiBold)
     }
 }
